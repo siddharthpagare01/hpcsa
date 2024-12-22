@@ -1,0 +1,30 @@
+1. create reservation called  examres for exam partition for all nodes belongs to partition for 10 minutes; and only examuser should be able to access no other user
+#command-
+-----------------------------------------------------------------------------------------------------------------------
+    scontrol create reservation Resevation=examuser Partition=exam_partition users=examuser StartTime=now Duration=00:10:00
+-----------------------------------------------------------------------------------------------------------------------
+
+
+2. 2. Assign in slurm.conf
+a. PreemptType=preempt/partition_prio
+ and
+   PreemptMode=SUSPEND,GANG
+
+b. a. PreemptType=preempt/qos
+ and
+   PreemptMode=SUSPEND,GANG
+
+submit a job explain the output
+
+
+make changes on slurm.conf and copy it to all slurm.conf file
+changes are :- 
+-----------------------------------------------------------
+
+A)  PreemptType=preempt/partition_prio
+    PreemptMode=SUSPEND,GANG
+
+B)  PreemptType=preempt/qos
+    PreemptMode=SUSPEND,GANG
+
+-----------------------------------------------------------

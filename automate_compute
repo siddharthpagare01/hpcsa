@@ -1,0 +1,18 @@
+                                                                      automate_compute
+
+#!/bin/bash
+
+sudo cp /tmp/slurm.conf ~/slurm-21.08.8/etc/
+echo "----------> cpy on slurm file" 
+
+sudo cp /tmp/slurm.conf /etc/slurm/
+echo "--------. copy on etc/slurm file"
+
+
+sudo cp /tmp/slurm.conf /etc/slurm-llnl/
+echo "---------> copy on slurmllnl"
+
+
+sudo systemctl restart slurmd.service
+sudo systemctl status slurmd.service
+

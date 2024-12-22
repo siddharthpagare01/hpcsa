@@ -1,0 +1,32 @@
+# Create and edit the shell script
+nano hello_script.sh
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# In the text editor, enter the following code:
+#!/bin/bash
+for i in {1..1000}
+do
+    echo "Hello"
+    sleep 1  # Sleep for 1 second after each print
+done
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+
+# Make the script executable
+chmod +x hello_script.sh
+
+# Execute the script
+./hello_script.sh
+
+1) # To generate a row per each node configuration (CPU, memory) with summary availability information
+sinfo -N -o "%N %c %m %t %E" | awk 'NR==1 || $4=="idle" {print}'
+
+2) # To generate a row per partition with summary availability information
+sinfo -o "%P %D %C %T"
+
+
+3) # List reasons nodes are in the down, drained, fail or failing state in along format
+scontrol show nodes | grep -E "NodeName|State=DOWN|State=DRAIN|Fail" -A 1

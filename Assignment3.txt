@@ -1,0 +1,67 @@
+# Assignment 3
+
+## 1. Listing Only Pending Jobs in the Queue
+
+# Create a script to submit a job
+sudo nano assig3.sh
+++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+#SBATCH --job-name=pending-job
+#SBATCH --ntasks=100
+#SBATCH --nodes=1
+#SBATCH --time=01:00:00
+#SBATCH --partition=debug
+#SBATCH --output=/tmp/job_output.log
+#SBATCH --error=/tmp/job_error.log
+
+echo "Starting job at $(date)"
+sleep 60
+echo "Job completed at $(date)"
+++++++++++++++++++++++++++++++++++++++++++
+
+# Submit the job
+sudo chmod +x file_name
+sbatch assig3.sh
+
+# List pending jobs (not running)
+squeue -t PENDING
+
+
+## 2. Monitoring Resource Usage (CPU, Memory) of a Running Job
+
+# Create a script for a long-running job
+sudo nano script.sh
+++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+#SBATCH --nodes=1
+#SBATCH --partition=debug
+#SBATCH --output=/tmp/job_output.log
+#SBATCH --error=/tmp/job_error.log
+
+for i in {1..1000}
+do
+    echo "hello"
+    sleep 5
+done
+++++++++++++++++++++++++++++++++++++++++++
+
+# Submit the job
+sudo chmod +x file_name
+sbatch script.sh
+
+# Monitor resource usage of the running job (replace <job_id> with actual job ID)
+scontrol show job <job_id>
+
+
+## 3. Checking the Exit Code of a Completed Job
+
+# Submit the job
+sbatch script.sh
+
+# Show all job accounting information
+sacct
+
+# Check the exit code of the completed job (replace <job_id> with actual job ID)
+sacct -j <job_id> --format=JobID,ExitCode

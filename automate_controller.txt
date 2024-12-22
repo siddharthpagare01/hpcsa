@@ -1,0 +1,25 @@
+                                                                    automate controller
+
+#!/bin/bash
+
+sudo cp slurm.conf /etc/slurm/
+sudo cp slurm.conf /etc/slurm-llnl/
+echo "----------------> copy success---------------------"
+
+sudo scp slurm.conf ubuntu@compute1:/tmp
+echo "--------->on compute1---------- "
+
+
+sudo scp slurm.conf ubuntu@compute2:/tmp
+echo "--------->on compute2---------- "
+
+sudo systemctl restart slurmctld.service
+echo "---------------restarted service-------------"
+
+sudo systemctl restart slurmd.service
+echo "--------------restart service"
+
+
+sudo systemctl status slurmctld.service
+
+sudo systemctl status slurmd.service

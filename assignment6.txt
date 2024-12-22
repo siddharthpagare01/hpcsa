@@ -1,0 +1,15 @@
+Assignment-6  
+
+WIth the given case study  for Assignment 3 and 4
+
+##List all the running jobs
+	squeue --state=RUNNNING      
+
+##List all the pending jobs
+	squeue --state=PENDING
+
+##List all jobs  of given user
+	squeue --state=ubuntu
+
+##Cancel all the pending jobs 
+	squeue --user=$USER --state=P -h -o %A | xargs -I {} scancel {}	

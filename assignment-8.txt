@@ -1,0 +1,22 @@
+Q1- You want to check the resources available in the "compute" partition before submitting your
+job. What command do you use?
+Command- sinfo -p compute
+
+
+Q2- You need to start an interactive job on the "short" partition that will run for 30 minutes and
+require 2 CPUs and 4 GB of memory. What command would you use?
+Command- srun --partition=short --time=00:30:00 --cpus-per-task=2 --mem=4G --pty bash
+
+
+Q3- You want to see which nodes in the "compute" partition are available (idle and not allocated). How do you do this?
+Command- sinfo -p compute -t idle
+
+
+Q4- You want to check the resource usage (e.g., memory, CPU) of all nodes in the "compute" partition. What command do you use?
+Command- sstat --allnodes -p compute
+
+Q5- You want to monitor the progress of a specific job, say job ID 12345. How do you monitor it
+in real-time?
+
+Command- a)squeue -j 12345
+b)scontrol show job 12345

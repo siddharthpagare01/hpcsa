@@ -1,0 +1,74 @@
+# Assignment 4
+
+## 1. Viewing Detailed Information About a Finished Job (Resource Usage & Exit Status)
+
+# After the job has finished, use the `sacct` command to view detailed job information, 
+# including resource usage (like memory, CPU) and exit status.
+
+# Command to view job details (replace <job_id> with the actual job ID):
+
+----------------------------------------------------------------------------
+sacct -j <job_id> --format=JobID,AllocCPUs,Elapsed,MaxRSS,MaxVMSize,ExitCode
+----------------------------------------------------------------------------
+
+
+# Explanation of fields:
+# - JobID: Job identifier
+# - AllocCPUs: Number of CPUs allocated for the job
+# - Elapsed: Time the job ran
+# - MaxRSS: Maximum resident set size (memory used)
+# - MaxVMSize: Maximum virtual memory size
+# - ExitCode: Exit status of the job
+
+
+## 2. Submitting a Job to Run on a Specific Node (e.g., node1)
+
+# To specify that your job should run on a specific node, use the `--nodelist` option in your job script.
+
+# Example job script (e.g., submit to node1):
+sudo nano job_script.sh
++++++++++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+#SBATCH --job-name=specific-node-job
+#SBATCH --nodelist=node1
+#SBATCH --output=/tmp/job_output.log
+#SBATCH --error=/tmp/job_error.log
+
+echo "This job will run on node1"
+sleep 60  # Simulating a job that runs for 60 seconds
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Submit the job using sbatch:
+----------------------------------------------------------------------------
+sbatch job_script.sh
+----------------------------------------------------------------------------
+
+
+## 3. Setting a Maximum Runtime for a Job (3 hours)
+
+# To set a maximum runtime of 3 hours for your job, use the `--time` option in the job script.
+
+# Example job script (set max time to 3 hours):
+sudo nano job_with_time_limit.sh
++++++++++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+#SBATCH --job-name=timed-job
+#SBATCH --time=03:00:00  # Set max runtime to 3 hours
+#SBATCH --output=/tmp/job_output.log
+#SBATCH --error=/tmp/job_error.log
+
+echo "This job has a 3-hour time limit"
+sleep 10800  # Simulating a job that runs for 3 hours
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Submit the job using sbatch:
+#----------------------------------------------------------------------------
+sbatch job_with_time_limit.sh
+#----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
+scontrol show job <JOB_ID>
+----------------------------------------------------------------------------

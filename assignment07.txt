@@ -1,0 +1,97 @@
+Assignment-7 -submission date 19 Dec 2024 EOD
+
+In three  node architecture
+
+Q.1 create a partition called "exam partition"; make one compute node a part of it ; on this compute node this will be default partition for wall time 7 days and will be available for 10 minutes for a given job ; execute the job provide detailed information about a job and partition; take screenshots for upload
+
+##on controller 
+	sudo nano slurm.conf
+	add this EOF >> PartitionName=exam_partition Nodes=compute-node-default Default=YES MaxTime=7-                                                   00:00:00 State=UP
+##write this script on controller 
+	
+	automated_filetransfer_controller.sh
+	chmod +x automated_filetransfer_controller.sh
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+sudo cp slurm.conf /etc/slurm/
+sudo cp slurm.conf /etc/slurm-llnl/
+echo "----------------> copy success---------------------"
+
+sudo scp slurm.conf ubuntu@compute1:/tmp
+echo "--------->on compute1---------- "
+
+
+sudo scp slurm.conf ubuntu@compute2:/tmp
+echo "--------->on compute2---------- "
+
+sudo systemctl restart slurmctld.service
+echo "---------------restarted service-------------"
+
+sudo systemctl restart slurmd.service
+echo "--------------restart service"
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+## Run that script 
+	 ./automated_filetransfer_controller.sh
+
+##### on compute node
+
+#crete a file 
+
+	sudo nano autoamte_compute.sh
+	chmod +x automate_compute.sh
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                                                                      automate_compute
+
+#!/bin/bash
+
+sudo cp /tmp/slurm.conf ~/slurm-21.08.8/etc/
+echo "----------> cpy on slurm file" 
+
+sudo cp /tmp/slurm.conf /etc/slurm/
+echo "--------. copy on etc/slurm file"
+
+
+sudo cp /tmp/slurm.conf /etc/slurm-llnl/
+echo "---------> copy on slurmllnl"
+
+
+sudo systemctl restart slurmd.service
+sudo systemctl status slurmd.service
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+## then run the script 
+	./automate_compute.sh
+
+#####on controller in to the job file
+	sudo nano job1.sh
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#!/bin/bash
+
+
+#SBATCH --nodes=1
+#SBATCH --partition=exam_partition
+#SBATCH --output=/tmp/job_output.log
+#SBATCH --error=/tmp/job_error.log
+
+for i in {1..1000}
+do 
+        echo "hello"
+        sleep 5
+done
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+## run the job 
+	
+	sbatch  --time=00:10:00 job1.sh
+
+	scontrol show partition exam_partition
+	
+	scontrol show job <job_id>
+	
+	squeue -u your_username
+
